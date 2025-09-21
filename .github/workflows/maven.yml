@@ -51,5 +51,5 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/brahmm-2001/banking-transaction-system:latest
+            ghcr.io/brahmm-2001/banking-transaction-system:${{ github.sha }}
