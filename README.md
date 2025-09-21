@@ -34,6 +34,6 @@ A **Java-based banking application** built with Maven that simulates core bankin
 - **CI/CD Ready**
     - GitHub Actions for **Continuous Integration** (build + test)
 
-[//]: # (    - Docker image publishing &#40;ready for Continuous Deployment&#41;)
+    - Docker image publishing (ready for Continuous Deployment)
 
 ---
