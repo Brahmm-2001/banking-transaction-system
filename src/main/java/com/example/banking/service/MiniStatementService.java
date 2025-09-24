@@ -9,7 +9,7 @@ public class MiniStatementService {
     private static MiniStatementService instance;
     private final TransactionRepository transactionRepository;
 
-    // Map<AccountNumber, Queue<Transaction>>
+    // Map<AccountId, Queue<Transaction>>
     private final Map<String, Deque<Transaction>> miniStatements = new HashMap<>();
 
     private MiniStatementService(TransactionRepository transactionRepository) {

@@ -1,4 +1,3 @@
-// TransactionFailedException.java
 package com.example.banking.exception;
 
 public class TransactionFailedException extends RuntimeException {

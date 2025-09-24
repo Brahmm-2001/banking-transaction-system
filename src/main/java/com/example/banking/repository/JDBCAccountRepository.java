@@ -100,7 +100,7 @@ public class JDBCAccountRepository implements AccountRepository {
         }
     }
 
-    // 🔹 Helper method for mapping ResultSet to Account object
+    // Helper method for mapping ResultSet to Account object
     private Account mapRowToAccount(ResultSet rs) throws SQLException {
         return new Account(
                 rs.getString("id"),

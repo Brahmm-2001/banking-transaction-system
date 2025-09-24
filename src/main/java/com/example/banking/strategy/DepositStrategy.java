@@ -19,8 +19,8 @@ public class DepositStrategy implements TransactionStrategy {
 
         return new Transaction(
                 UUID.randomUUID().toString(),
-                null, // fromAccountId
-                account.getId(), // toAccountId
+                null,       // fromAccountId
+                account.getId(),        // toAccountId
                 "DEPOSIT",
                 amount
         );

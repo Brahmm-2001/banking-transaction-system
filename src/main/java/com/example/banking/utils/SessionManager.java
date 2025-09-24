@@ -7,7 +7,7 @@ public class SessionManager {
     private Customer loggedInCustomer;
     private Thread timerThread;
     private boolean active;
-    private final long SESSION_TIMEOUT = 5 * 60; // 10 minutes in seconds
+    private final long SESSION_TIMEOUT = 10 * 60;   // 10 minutes in seconds
 
     private SessionManager() {}
 
@@ -24,7 +24,7 @@ public class SessionManager {
         this.active = true;
 
         if (timerThread != null && timerThread.isAlive()) {
-            timerThread.interrupt(); // stop previous session
+            timerThread.interrupt();    // stop previous session
         }
 
         timerThread = new Thread(() -> {
@@ -35,10 +35,10 @@ public class SessionManager {
                 }
             } catch (InterruptedException ignored) {}
         });
-        timerThread.setDaemon(true); // won’t block JVM exit
+        timerThread.setDaemon(true);    // won’t block JVM exit
         timerThread.start();
 
-        System.out.println("✅ Session is valid for 5 minutes.");
+        System.out.println("✅ Session is valid for 10 minutes.");
     }
 
     public void endSession() {

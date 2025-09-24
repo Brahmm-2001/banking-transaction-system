@@ -1,4 +1,3 @@
-// InsufficientFundsException.java
 package com.example.banking.exception;
 
 public class InsufficientFundsException extends RuntimeException {

@@ -15,20 +15,20 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // === Initialize repositories ===
+        // Initialize repositories
         CustomerRepository customerRepo = new JDBCCustomerRepository();
         AccountRepository accountRepo = new JDBCAccountRepository();
         TransactionRepository transactionRepo = new JDBCTransactionRepository();
         AuditLogRepository auditRepo = new JDBCAuditLogRepository();
         DynamoDbClient dynamoDbClient = DynamoDBUtil.getLocalClient();
 
-        // === Initialize services ===
+        // Initialize services
         AuthService authService = AuthService.getInstance(customerRepo);
         AccountService accountService = AccountService.getInstance(accountRepo);
         TransactionService transactionService = TransactionService.getInstance(accountRepo, transactionRepo, auditRepo, dynamoDbClient);
         MiniStatementService miniStatementService = MiniStatementService.getInstance(transactionRepo);
 
-        // === Initialize menu handlers ===
+        // Initialize menu handlers
         GuestMenuHandler guestMenu = new GuestMenuHandler(authService, accountService, transactionRepo);
         CustomerMenuHandler customerMenu = new CustomerMenuHandler(authService, accountService, transactionService, miniStatementService);
 
@@ -45,11 +45,11 @@ public class Main {
             } catch (LogoutException e) {
                 System.out.println();
                 System.out.println(e.getMessage());
-                loggedInCustomer = null;   // ✅ back to guest menu
+                loggedInCustomer = null;                                // back to guest menu
             } catch (ExitException e) {
                 System.out.println();
                 System.out.println("👋 Exiting Banking System...");
-                running = false;   // ✅ ends the loop cleanly
+                running = false;                                        // Exit the program
             } catch (Exception e) {
                 System.out.println();
                 ExceptionHandler.handle(e);

@@ -1,4 +1,3 @@
-// UnauthorizedAccessException.java
 package com.example.banking.exception;
 
 public class UnauthorizedAccessException extends RuntimeException {

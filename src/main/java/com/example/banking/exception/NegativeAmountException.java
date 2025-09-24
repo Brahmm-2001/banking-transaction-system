@@ -1,4 +1,3 @@
-// NegativeAmountException.java
 package com.example.banking.exception;
 
 public class NegativeAmountException extends RuntimeException {

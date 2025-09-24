@@ -35,10 +35,10 @@ public class CustomerMenuHandler {
 
     public Customer showMenu(Scanner scanner, Customer loggedInCustomer) {
 
-        // ✅ Check session first
-        if (com.example.banking.utils.SessionManager.getInstance().isActive()) {
+        // Check session first
+        if (SessionManager.getInstance().isActive()) {
             System.out.println("⚠ Session expired! Auto-logging out...");
-            throw new com.example.banking.exception.LogoutException("Session expired. Please login again.");
+            throw new LogoutException("Session expired. Please login again.");
         }
 
         System.out.println();
@@ -68,7 +68,7 @@ public class CustomerMenuHandler {
         scanner.nextLine();
 
         try {
-            // ✅ Check session first
+            // Check session first
             if (SessionManager.getInstance().isActive()) {
                 System.out.println();
                 System.out.print("⚠ Session expired! Auto-logging out...");
@@ -125,7 +125,7 @@ public class CustomerMenuHandler {
         System.out.print("Enter deposit amount: ");
         if (!scanner.hasNextBigDecimal()) {
             System.out.println("❌ Invalid amount. Please enter numeric value.");
-            scanner.nextLine(); // consume invalid input
+            scanner.nextLine();
             return;
         }
         BigDecimal amount = scanner.nextBigDecimal(); scanner.nextLine();
@@ -165,11 +165,11 @@ public class CustomerMenuHandler {
         if (!scanner.hasNextBigDecimal()) {
             System.out.println();
             System.out.println("❌ Invalid amount. Please enter numeric value.");
-            scanner.nextLine(); // consume invalid input
+            scanner.nextLine();
             return;
         }
         BigDecimal amount = scanner.nextBigDecimal();
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
 
         Transaction txn = transactionService.transfer(srcAcc.getNumber(), destAccNum, amount, loggedInCustomer.getId());
 
@@ -203,7 +203,7 @@ public class CustomerMenuHandler {
             return;
         }
 
-        // Table header (amount width increased to 20)
+        // Table header
         System.out.printf(BOLD + "%-13s | %-9s | %-40s | %-18s | %-14s | %-16s%n" + RESET,
                 "TXN ID", "TYPE", "FROM → TO", "AMOUNT", "STATUS", "TIMESTAMP");
         System.out.println("──────────────┼───────────┼──────────────────────────────────────────┼────────────────────┼────────────────┼─────────────────");
@@ -220,7 +220,7 @@ public class CustomerMenuHandler {
             // Shorten Txn ID
             String shortTxnId = t.getId().substring(0, 6) + "..." + t.getId().substring(t.getId().length() - 4);
 
-            // Amount (with proper signs and large number padding)
+            // Amount
             String rawAmount;
             if (t.getToAccountId() != null && t.getToAccountId().equals(accountId)) {
                 rawAmount = "↑ ₹" + String.format("%.2f", t.getAmount());
@@ -265,9 +265,7 @@ public class CustomerMenuHandler {
         System.out.println("═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════");
     }
 
-    /**
-     * Pads a string based on visible width (ignores ANSI codes, counts emojis as 2).
-     */
+    // Pads a string based on visible width (ignores ANSI codes, counts emojis as 2).
     private String padVisible(String text, int width) {
         String stripped = text.replaceAll("\u001B\\[[;\\d]*m", "");
 
@@ -322,7 +320,7 @@ public class CustomerMenuHandler {
                                                                 .toLocalDate()
                                                                 .toString());
 
-        // show accounts
+        // Show accounts
         List<Account> accounts = accountService.getCustomerAccounts(loggedInCustomer.getId());
         System.out.println();
         System.out.println(YELLOW + "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 💳 ACCOUNTS (" + accounts.size() + ") ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━" + RESET);
@@ -341,14 +339,14 @@ public class CustomerMenuHandler {
                         ? GREEN + "✅ ACTIVE" + RESET
                         : RED + "❌ CLOSED" + RESET;
 
-                // Format balance safely for display (two decimals)
+                // Format balance (Two decimals)
                 String balanceStr = String.format("%,.2f", a.getBalance().doubleValue());
 
-                // Convert Instant -> LocalDate using system zone (fix for toLocalDate not resolved)
+                // Convert Instant -> LocalDate
                 String createdDate = a.getCreatedAt()
                         .atZone(java.time.ZoneId.systemDefault())
                         .toLocalDate()
-                        .toString(); // e.g. 2025-09-15
+                        .toString();  // e.g. 2025-09-15
 
                 System.out.printf("%-3s %-18s | %-9s | %-14s | %-12s | %-10s%n",
                         index,
@@ -382,7 +380,7 @@ public class CustomerMenuHandler {
         final String YELLOW = "\u001B[33m";
         final String BOLD = "\u001B[1m";
 
-        // ===== HEADER =====
+        // HEADER
         System.out.println();
         System.out.println(CYAN + "================================================" + RESET);
         System.out.println(BOLD + "                MINI STATEMENT" + RESET);
@@ -392,7 +390,7 @@ public class CustomerMenuHandler {
         System.out.println(YELLOW + "Account Type    : " + RESET + type);
         System.out.println();
 
-        // ===== TRANSACTION TABLE =====
+        // TRANSACTION TABLE
         System.out.println(CYAN + "------------------------------------------------" + RESET);
         System.out.printf(BOLD + "%-20s | %-12s | %-12s%n" + RESET, "Date & Time", "Type", "Amount");
         System.out.println(CYAN + "------------------------------------------------" + RESET);
@@ -407,23 +405,23 @@ public class CustomerMenuHandler {
 
             if (t.getType().equalsIgnoreCase("DEPOSIT")) {
                 amount = "+₹" + t.getAmount();
-                color = GREEN; // credit
+                color = GREEN;          // credit
             } else if (t.getType().equalsIgnoreCase("WITHDRAW")) {
                 amount = "-₹" + t.getAmount();
-                color = RED; // debit
+                color = RED;            // debit
             } else if (t.getType().equalsIgnoreCase("TRANSFER")) {
                 if (t.getToAccountId() != null && t.getToAccountId().equals(acc.getId())) {
                     amount = "+₹" + t.getAmount();
-                    color = GREEN; // credited to this account
+                    color = GREEN;      // credited to this account
                 } else if (t.getFromAccountId() != null && t.getFromAccountId().equals(acc.getId())) {
                     amount = "-₹" + t.getAmount();
-                    color = RED; // debited from this account
+                    color = RED;        // debited from this account
                 } else {
-                    amount = "₹" + t.getAmount(); // fallback
+                    amount = "₹" + t.getAmount();       // fallback
                     color = CYAN;
                 }
             } else {
-                amount = "₹" + t.getAmount(); // fallback
+                amount = "₹" + t.getAmount();           // fallback
                 color = CYAN;
             }
 
@@ -437,7 +435,7 @@ public class CustomerMenuHandler {
         System.out.println(BOLD + "Available Balance: " + RESET + GREEN + "₹" + acc.getBalance() + RESET);
         System.out.println();
 
-        // ===== FOOTER =====
+        // FOOTER
         String generatedOn = java.time.format.DateTimeFormatter.ofPattern("dd-MMM-yyyy hh:mm a")
                 .format(java.time.Instant.now().atZone(java.time.ZoneId.systemDefault()));
         System.out.println(YELLOW + "Generated on Date: " + RESET + generatedOn);
@@ -448,7 +446,7 @@ public class CustomerMenuHandler {
 
 
 
-    // helper
+    // Helper (Ask account type)
     private String askAccountType(Scanner scanner) {
         while (true) {
             System.out.println();
@@ -457,12 +455,12 @@ public class CustomerMenuHandler {
 
             if (!scanner.hasNextInt()) {
                 System.out.println("\n❌ Please enter a number (1 or 2).");
-                scanner.nextLine(); // discard invalid input
+                scanner.nextLine();
                 continue;
             }
 
             int accChoice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
+            scanner.nextLine();
 
             if (accChoice == 1) return "SAVINGS";
             if (accChoice == 2) return "CURRENT";

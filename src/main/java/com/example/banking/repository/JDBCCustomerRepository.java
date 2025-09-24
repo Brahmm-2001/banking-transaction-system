@@ -7,17 +7,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * JDBC implementation of CustomerRepository
- * This replaces the in-memory repository and persists customers in MySQL.
- */
 public class JDBCCustomerRepository implements CustomerRepository {
 
-    /**
-     * Save a customer to the database.
-     * - If the customer does not exist → INSERT new record.
-     * - If the customer already exists (same id or email) → UPDATE record.
-     */
     @Override
     public Customer save(Customer customer) {
         String sql = "INSERT INTO customers (id, full_name, email, phone, password, created_at) " +
@@ -48,9 +39,6 @@ public class JDBCCustomerRepository implements CustomerRepository {
         }
     }
 
-    /**
-     * Find a customer by their ID (UUID).
-     */
     @Override
     public Customer findById(String id) {
         String sql = "SELECT * FROM customers WHERE id = ?";
@@ -68,12 +56,9 @@ public class JDBCCustomerRepository implements CustomerRepository {
         } catch (SQLException e) {
             throw new RuntimeException("❌ Error finding customer by id", e);
         }
-        return null; // not found
+        return null;    // not found
     }
 
-    /**
-     * Find a customer by their email (unique).
-     */
     @Override
     public Customer findByEmail(String email) {
         String sql = "SELECT * FROM customers WHERE email = ?";
@@ -91,12 +76,9 @@ public class JDBCCustomerRepository implements CustomerRepository {
         } catch (SQLException e) {
             throw new RuntimeException("❌ Error finding customer by email", e);
         }
-        return null; // not found
+        return null;    // not found
     }
 
-    /**
-     * Fetch all customers in the database.
-     */
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM customers";
@@ -116,9 +98,6 @@ public class JDBCCustomerRepository implements CustomerRepository {
         return customers;
     }
 
-    /**
-     * Utility method: Convert a database row into a Customer object.
-     */
     private Customer mapRowToCustomer(ResultSet rs) throws SQLException {
         return new Customer(
                 rs.getString("id"),

@@ -191,11 +191,11 @@ public class TransactionService {
 
             return txn;
         } catch (Exception ex) {
-            // 🔴 FIXED: Destination account should not be linked in failed transfer
+            // Destination account should not be linked in failed transfer
             Transaction failTxn = new Transaction(
                     UUID.randomUUID().toString(),
-                    source.getId(),   // only source
-                    null,             // no destination
+                    source.getId(),     // only source
+                    null,               // no destination
                     "TRANSFER",
                     amount
             );

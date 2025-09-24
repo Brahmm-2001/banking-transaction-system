@@ -1,4 +1,3 @@
-// AccountClosedException.java
 package com.example.banking.exception;
 
 public class AccountClosedException extends RuntimeException {

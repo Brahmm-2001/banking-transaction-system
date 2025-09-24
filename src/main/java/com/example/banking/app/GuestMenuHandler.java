@@ -48,7 +48,7 @@ public class GuestMenuHandler {
 
 
         int choice = scanner.nextInt();
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
 
         try {
             return switch (choice) {
@@ -87,7 +87,7 @@ public class GuestMenuHandler {
         Customer c = authService.register(name, email, password, phone);
         System.out.println();
         System.out.println("✅ Registered successfully! Customer ID: " + c.getId());
-        return null; // stay in guest menu
+        return null;        // Stay in guest menu
     }
 
     private Customer handleLogin(Scanner scanner) {
@@ -104,7 +104,7 @@ public class GuestMenuHandler {
         // Start session timer
         SessionManager.getInstance().startSession(loggedIn);
 
-        // === Preload MiniStatement for each account of this customer ===
+        // Preload MiniStatement for each account of this customer
         List<Account> accounts = accountService.getCustomerAccounts(loggedIn.getId());
         if (accounts.isEmpty()) {
             System.out.println("ℹ You don’t have any accounts yet. Create one to start banking.");
@@ -115,6 +115,6 @@ public class GuestMenuHandler {
             }
         }
 
-        return loggedIn; // move to customer menu
+        return loggedIn;        // Move to customer menu
     }
 }

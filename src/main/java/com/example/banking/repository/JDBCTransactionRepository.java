@@ -91,7 +91,7 @@ public class JDBCTransactionRepository implements TransactionRepository {
         }
     }
 
-    // 🔹 Helper method for mapping ResultSet to Transaction object
+    // Helper method for mapping ResultSet to Transaction object
     private Transaction mapRowToTransaction(ResultSet rs) throws SQLException {
         return new Transaction(
                 rs.getString("id"),

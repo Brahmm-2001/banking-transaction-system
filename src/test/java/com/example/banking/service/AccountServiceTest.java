@@ -47,7 +47,7 @@ class AccountServiceTest {
         } catch (Exception ignored) {}
     }
 
-    // ---------- createAccount ----------
+    // createAccount
     @Test
     void createAccount_Success() {
         // Simulate no existing accounts
@@ -69,7 +69,7 @@ class AccountServiceTest {
                 () -> accountService.createAccount("C1", BigDecimal.ZERO, "SAVINGS"));
     }
 
-    // ---------- viewBalance ----------
+    // viewBalance
     @Test
     void viewBalance_Success() {
         BigDecimal balance = accountService.viewBalance("ACC1001", "C1");
@@ -90,7 +90,7 @@ class AccountServiceTest {
                 () -> accountService.viewBalance("ACC1001", "C1"));
     }
 
-    // ---------- closeAccount ----------
+    // closeAccount
     @Test
     void closeAccount_Success() {
         accountService.closeAccount("ACC1001", "C1");

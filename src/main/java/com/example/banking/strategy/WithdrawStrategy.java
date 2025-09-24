@@ -23,8 +23,8 @@ public class WithdrawStrategy implements TransactionStrategy {
 
         return new Transaction(
                 UUID.randomUUID().toString(),
-                account.getId(), // fromAccountId
-                null,            // toAccountId
+                account.getId(),    // fromAccountId
+                null,               // toAccountId
                 "WITHDRAW",
                 amount
         );

@@ -24,7 +24,7 @@ public class AccountService {
         return instance;
     }
 
-    // ✅ Create a new account
+    // Create a new account
     public Account createAccount(String customerId, BigDecimal initialDeposit, String type) {
         String normalizedType = type.toUpperCase();
 
@@ -42,7 +42,7 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    // ✅ View balance
+    // View balance
     public BigDecimal viewBalance(String accountNumber, String actorId) {
         Account acc = accountRepository.findByNumber(accountNumber);
         if (acc == null) throw new AccountNotFoundException("Account not found: " + accountNumber);
@@ -54,7 +54,7 @@ public class AccountService {
         return acc.getBalance();
     }
 
-    // ✅ Close account
+    // Close account
     public void closeAccount(String accountNumber, String actorId) {
         Account acc = accountRepository.findByNumber(accountNumber);
         if (acc == null) throw new AccountNotFoundException("Account not found: " + accountNumber);
@@ -67,12 +67,12 @@ public class AccountService {
         accountRepository.save(acc);
     }
 
-    // ✅ List all accounts of a customer
+    // List all accounts of a customer
     public List<Account> getCustomerAccounts(String customerId) {
         return accountRepository.findByCustomerId(customerId);
     }
 
-    // ✅ Get account by type
+    // Get account by type
     public Account getAccountByType(String customerId, String type) {
         Account acc = accountRepository.findByCustomerIdAndType(customerId, type.toUpperCase());
         if (acc == null) {
@@ -81,9 +81,6 @@ public class AccountService {
         return acc;
     }
 
-    // Helper: return account number (ACC...) for a given account id (UUID).
-    // If accountId is null -> returns "-".
-    // If account not found -> returns the original id (fallback).
     public String getAccountNumberById(String accountId) {
         if (accountId == null) return "-";
         Account acc = accountRepository.findById(accountId);

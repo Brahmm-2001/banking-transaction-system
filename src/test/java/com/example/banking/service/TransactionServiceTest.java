@@ -52,7 +52,7 @@ class TransactionServiceTest {
         account1 = new Account("A1", "ACTOR1", "ACC1001", BigDecimal.valueOf(1000), "SAVINGS");
         account2 = new Account("A2", "ACTOR1", "ACC2001", BigDecimal.valueOf(500), "CURRENT");
 
-        // ✅ Lenient stubbing to prevent unnecessary stubbing errors
+        // Lenient stubbing to prevent unnecessary stubbing errors
         lenient().when(accountRepository.findByNumber("ACC1001")).thenReturn(account1);
         lenient().when(accountRepository.findByNumber("ACC2001")).thenReturn(account2);
 
@@ -67,7 +67,7 @@ class TransactionServiceTest {
         field.set(null, null);
     }
 
-    // ---------- Deposit ----------
+    // Deposit
     @Test
     void deposit_success_increasesBalance() {
         transactionService.deposit("ACC1001", BigDecimal.valueOf(200), "ACTOR1");
@@ -81,7 +81,7 @@ class TransactionServiceTest {
                 () -> transactionService.deposit("ACC1001", BigDecimal.valueOf(-100), "ACTOR1"));
     }
 
-    // ---------- Withdraw ----------
+    // Withdraw
     @Test
     void withdraw_success_decreasesBalance() {
         transactionService.withdraw("ACC1001", BigDecimal.valueOf(300), "ACTOR1");
@@ -101,7 +101,7 @@ class TransactionServiceTest {
                 () -> transactionService.withdraw("ACC1001", BigDecimal.valueOf(-50), "ACTOR1"));
     }
 
-    // ---------- Transfer ----------
+    // Transfer
     @Test
     void transfer_success_movesMoney_betweenAccounts() {
         transactionService.transfer("ACC1001", "ACC2001", BigDecimal.valueOf(400), "ACTOR1");

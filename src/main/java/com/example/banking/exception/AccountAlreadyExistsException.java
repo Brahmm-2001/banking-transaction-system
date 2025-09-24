@@ -1,4 +1,3 @@
-// AccountAlreadyExistsException.java
 package com.example.banking.exception;
 
 public class AccountAlreadyExistsException extends RuntimeException {

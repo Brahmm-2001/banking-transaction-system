@@ -69,7 +69,7 @@ public class JDBCAuditLogRepository implements AuditLogRepository {
         }
     }
 
-    // 🔹 Helper method for mapping ResultSet to AuditLog object
+    // Helper method for mapping ResultSet to AuditLog object
     private AuditLog mapRowToAuditLog(ResultSet rs) throws SQLException {
         return new AuditLog(
                 rs.getString("id"),

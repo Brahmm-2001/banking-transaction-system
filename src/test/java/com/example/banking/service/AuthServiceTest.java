@@ -40,7 +40,7 @@ class AuthServiceTest {
         } catch (Exception ignored) {}
     }
 
-    // ---------- register ----------
+    // register
     @Test
     void register_Success() {
         when(customerRepository.findByEmail("new@example.com")).thenReturn(null);
@@ -76,7 +76,7 @@ class AuthServiceTest {
                 () -> authService.register("Alice", "john@example.com", "mypwd12", "1234567890"));
     }
 
-    // ---------- login ----------
+    // login
     @Test
     void login_Success() {
         Customer c = authService.login("john@example.com", "secret123");
@@ -96,7 +96,7 @@ class AuthServiceTest {
                 () -> authService.login("missing@example.com", "any"));
     }
 
-    // ---------- changePassword ----------
+    // changePassword
     @Test
     void changePassword_Success() {
         authService.changePassword("C1", "secret123", "newness12");

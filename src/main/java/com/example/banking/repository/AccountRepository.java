@@ -12,6 +12,5 @@ public interface AccountRepository {
 
     List<Account> findByCustomerId(String customerId);
 
-    // 🔹 New method to fetch account by type
     Account findByCustomerIdAndType(String customerId, String type);
 }

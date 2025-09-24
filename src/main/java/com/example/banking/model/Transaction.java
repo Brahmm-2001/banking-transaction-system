@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 public class Transaction {
-    private final String id;          // UUID
+    private final String id;            // UUID
     private final String fromAccountId; // null for Deposit
     private final String toAccountId;   // null for Withdraw
     private final String type;          // DEPOSIT / WITHDRAW / TRANSFER

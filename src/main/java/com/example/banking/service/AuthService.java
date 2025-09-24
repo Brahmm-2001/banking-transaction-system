@@ -24,37 +24,37 @@ public class AuthService {
         return instance;
     }
 
-    // ✅ Register new customer
+    // Register new customer
     public Customer register(String fullName, String email, String password, String phone) {
 
-        // --- Email validation ---
+        // Email validation
         if (!email.matches("^[\\w.-]+@[\\w.-]+\\.[A-Za-z]{2,6}$")) {
             throw new IllegalArgumentException("Invalid email format. Example: user@example.com");
         }
 
-        // --- Password validation ---
+        // Password validation
         if (password.length() < 6 || password.length() > 12) {
             throw new IllegalArgumentException("Password must be 6-12 characters long.");
         }
 
-        // --- Phone validation ---
+        // Phone validation
         if (!phone.matches("\\d{10}")) {
             throw new IllegalArgumentException("Phone must be exactly 10 digits.");
         }
 
-        // --- Check if email already exists ---
+        // Check if email already exists
         Customer existing = customerRepository.findByEmail(email);
         if (existing != null) {
             throw new EmailAlreadyRegisteredException("Email already registered: " + email);
         }
 
-        // --- Create customer ---
+        // Create customer
         String id = UUID.randomUUID().toString();
         Customer customer = new Customer(id, fullName, email, password, phone);
         return customerRepository.save(customer);
     }
 
-    // ✅ Login
+    // Login
     public Customer login(String email, String password) {
         Customer customer = customerRepository.findByEmail(email);
 
@@ -65,7 +65,7 @@ public class AuthService {
         return customer;
     }
 
-    // ✅ Change Password
+    // Change Password
     public void changePassword(String customerId, String oldPassword, String newPassword) {
 
         Customer customer = customerRepository.findById(customerId);
@@ -77,17 +77,17 @@ public class AuthService {
             throw new InvalidCredentialsException("Old password is incorrect");
         }
 
-        // --- New password validation ---
+        // New password validation
         if (newPassword.length() < 6 || newPassword.length() > 12) {
             throw new IllegalArgumentException("New password must be 6-12 characters long.");
         }
 
-        // --- New password must be different from old password ---
+        // New password must be different from old password
         if (oldPassword.equals(newPassword)) {
             throw new IllegalArgumentException("New password must be different from old password.");
         }
 
         customer.setPassword(newPassword);
-        customerRepository.save(customer); // Update in repo
+        customerRepository.save(customer);  // Update in repo
     }
 }
